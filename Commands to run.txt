@@ -1,0 +1,63 @@
+Commands for clients:
+1. mkdir reactRouting
+2. cd reactRouting
+3. npx create-react-app client
+4. cd client
+5. npm install react-bootstrap bootstrap
+6. npm install axios
+7. npm install react-router-dom
+8. Open client folder in VSCode manually or type code . in the console prompt then hit enter/return (VSCode should open in the client folder)
+9. Add: import "bootstrap/dist/css/bootstrap.min.css"; to App.js
+
+Commands for server:
+1. mkdir fullStack
+2. cd fullStack
+3. mkdir server
+4. cd server
+5. type nul > server.js (Windows) / touch server.js (Mac)
+6. mkdir configs
+7. mkdir controllers
+8. mkdir models
+9. mkdir routes
+10. npm init -y
+11. type nul > .env (Windows) / touch .env (Mac)
+12. type nul > .gitignore (Windows) / touch .gitignore (Mac)
+13. npm install mongoose express cors dotenv
+14. create moongoose.config within configs file and put these in
+	const mongoose = require('mongoose')
+
+	const dbName = process.env.ATLAS_DATABASE
+	const username = process.env.ATLAS_USERNAME
+	const password = process.env.ATLAS_PASSWORD
+
+	const uri = `mongodb+srv://${username}:${password}@cluster0.jlsuqq8.mongodb.net/${dbName}?retryWrites=true&w=majority`;
+
+	mongoose.connect(uri, {
+    	useNewUrlParser: true,
+    	useUnifiedTopology: true
+	})
+	.then(() => console.log(`Establishing a connection to database: ${dbName}`))
+	.catch((err) => console.log(`Connection error! ==> `, err))
+15. put these in .env
+	ATLAS_DATABASE = "songDBCloud23"
+	ATLAS_USERNAME = "ynwork1228"
+	ATLAS_PASSWORD = "ZZIwDlw8RkMCK0zY"
+16. within server.js paste these
+	const express = require("express")
+	const cors = require("cors")
+
+	require("dotenv").config()
+
+	const app = express()
+	const port = 8000
+
+	app.use(express.json())
+	app.use(express.urlencoded({extended: true}))
+	app.use(cors())
+
+	require('./configs/mongoose.config')
+
+	const Routes = require('./routes/=========.routes')
+	Routes(app)
+
+	app.listen(port, () => console.log(`Welcome! Connection established to port:${port}`))
